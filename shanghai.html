@@ -1,3 +1,4 @@
+<meta http-equiv="refresh" content="3600" />
 <script type="text/javascript" src="http://kopf.github.io/chineseair/javascripts/data.js"></script>
 <style type="text/css">
 <style type="text/css">
@@ -76,22 +77,62 @@
 				color: #7e7e7e;
 				text-transform: uppercase;
 			}
+			h2#desc {
+				padding-top:0;
+				margin-top:-25px;
+			}
 		</style>
 </style>
 <div id="container">
-<h2>Air Quality</h2>
-<h1>
+<h2>Shanghai Air Quality</h2>
+<h1 id="rating"></h1>
+<h2 id="desc"></h2>
+</div>
+
+
 <script type="text/javascript">
 var data = {
+	ratingToDesc: function(rating) {
+		if (rating<=50) {
+			return "Good";
+		} else if (rating<=100) {
+			return "Moderate";
+		} else if (rating<=150) {
+			return "Unhealthy for Sensitive Groups";
+		} else if (rating<=200) {
+			return "Unhealthy";
+		} 	else if (rating<=200) {
+			return "Very Unhealthy";
+		} else if (rating<=500) {
+			return "Hazardous";
+		} else if (rating>500){
+			return "Crazy Bad";
+		}
+		return "Unknown";
+	},
 	addRows: function(rows) {
 		var last = rows.pop();
 		var beijing = last[1];
 		var shanghai = last[2];
-		document.write(shanghai);
+		document.getElementById("rating").innerHTML = shanghai.toString();
+		document.getElementById("desc").innerHTML = this.ratingToDesc(shanghai);
 	}
 };
 populateData(data);
 </script>
+<!--
+Good 
+(0-50)	None
 
-</h1>
-</div>
+Moderate
+(51-100)	Unusually sensitive people should consider reducing prolonged or heavy exertion.
+
+Unhealthy for Sensitive Groups 
+(101-150)	People with heart or lung disease, older adults, and children should reduce prolonged or heavy exertion.
+Unhealthy        
+(151-200)	People with heart or lung disease, older adults, and children should avoid prolonged or heavy exertion; everyone else should reduce prolonged or heavy exertion.
+Very Unhealthy 
+(201-300)	People with heart or lung disease, older adults, and children should avoid all physical activity outdoors. Everyone else should avoid prolonged or heavy exertion.
+Hazardous 
+(301-500)	Everyone should avoid all physical activity outdoors; people with heart or lung disease, older adults, and children should remain indoors and keep activity levels low.
+-->
